@@ -4,8 +4,7 @@ const timerElement = document.getElementById('timer');
 const wpmElement = document.getElementById('wpm');
 const accuracyElement = document.getElementById('accuracy');
 const progressBar = document.getElementById('progress-bar');
-const themeToggle = document.getElementById('theme-toggle'); // Ensure this matches HTML id
-const highScoreElement = document.getElementById('high-score');
+const themeToggle = document.getElementById('theme-toggle');
 const difficultySelect = document.getElementById('difficulty-select');
 
 let timerInterval;
@@ -13,34 +12,25 @@ let isTyping = false;
 let timeLeft;
 let totalChars = 0;
 
-// Initialize High Score from LocalStorage
-highScoreElement.innerText = localStorage.getItem('bestWPM') || 0;
-
-// FIX: Dark Mode Toggle Logic
+// Dark Mode Toggle
 if (themeToggle) {
     themeToggle.addEventListener('click', () => {
         document.body.classList.toggle('dark-mode');
-        console.log("Theme toggled. Dark mode is now: " + document.body.classList.contains('dark-mode'));
     });
 }
 
 function renderNewQuote() {
     const level = difficultySelect.value;
-    const selectedQuotes = quotes[level];
-    const quote = selectedQuotes[Math.floor(Math.random() * selectedQuotes.length)];
+    const quote = quotes[level][Math.floor(Math.random() * quotes[level].length)];
     
     quoteDisplayElement.innerHTML = '';
-    
-    // Split quote into characters and wrap each in an animated span
-    quote.split('').forEach((character, index) => {
-        const characterSpan = document.createElement('span');
-        characterSpan.innerText = character;
-        
-        // Adds a staggered delay so letters pop in one by one (Streaming Effect)
-        characterSpan.style.animationDelay = `${index * 0.01}s`; 
-        quoteDisplayElement.appendChild(characterSpan);
+    quote.split('').forEach((char, index) => {
+        const span = document.createElement('span');
+        span.innerText = char;
+        // Animation delay for "Streaming" effect
+        span.style.animationDelay = `${index * 0.01}s`; 
+        quoteDisplayElement.appendChild(span);
     });
-    
     quoteInputElement.value = null;
 }
 
@@ -52,12 +42,10 @@ function startTimer() {
         timeLeft--;
         timerElement.innerText = timeLeft + 's';
         
-        // Progress Bar Update
         if (progressBar) {
             progressBar.style.width = (timeLeft / totalTime) * 100 + '%';
         }
 
-        // Live WPM Logic
         const elapsed = totalTime - timeLeft;
         if (elapsed > 0) {
             wpmElement.innerText = Math.round((totalChars / 5) / (elapsed / 60));
@@ -70,26 +58,13 @@ function startTimer() {
 function endTest() {
     clearInterval(timerInterval);
     quoteInputElement.disabled = true;
-    
-    // Populate Modal Results
-    document.getElementById('res-level').innerText = difficultySelect.value.toUpperCase();
     document.getElementById('res-wpm').innerText = wpmElement.innerText;
     document.getElementById('res-acc').innerText = accuracyElement.innerText;
     document.getElementById('result-modal').style.display = 'flex';
-    
-    // LocalStorage High Score Update
-    let high = localStorage.getItem('bestWPM') || 0;
-    if (parseInt(wpmElement.innerText) > high) {
-        localStorage.setItem('bestWPM', wpmElement.innerText);
-        highScoreElement.innerText = wpmElement.innerText;
-    }
 }
 
 quoteInputElement.addEventListener('input', () => {
-    if (!isTyping) { 
-        startTimer(); 
-        isTyping = true; 
-    }
+    if (!isTyping) { startTimer(); isTyping = true; }
 
     const arrayQuote = quoteDisplayElement.querySelectorAll('span');
     const arrayValue = quoteInputElement.value.split('');
@@ -100,11 +75,9 @@ quoteInputElement.addEventListener('input', () => {
             span.classList.remove('correct', 'incorrect');
         } else if (arrayValue[i] === span.innerText) {
             span.classList.add('correct');
-            span.classList.remove('incorrect');
             correct++;
         } else {
             span.classList.add('incorrect');
-            span.classList.remove('correct');
         }
     });
 
@@ -112,15 +85,10 @@ quoteInputElement.addEventListener('input', () => {
         totalChars += arrayValue.length;
         renderNewQuote();
     }
-    
     accuracyElement.innerText = arrayValue.length > 0 ? Math.round((correct / arrayValue.length) * 100) : 100;
 });
 
-function closeModal() {
-    document.getElementById('result-modal').style.display = 'none';
-    location.reload(); 
-}
-
+function closeModal() { location.reload(); }
 document.getElementById('restart-btn').addEventListener('click', () => location.reload());
 
 renderNewQuote();
