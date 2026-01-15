@@ -10,7 +10,7 @@
 <body>
     <div class="container">
         <h1>Speed Typing Analyzer</h1>
-        <p>Type as many sentences as you can before time runs out!</p>
+        <p>Type continuously until the timer hits zero!</p>
 
         <div class="settings-row">
             <div class="setting-item">
@@ -52,8 +52,22 @@
 
         <div id="quote-display" class="quote-display"></div>
         <textarea id="quote-input" class="quote-input" autofocus placeholder="Start typing..."></textarea>
-        
         <button id="restart-btn" class="restart-btn">Restart Test</button>
+    </div>
+
+    <div id="result-modal" class="modal">
+        <div class="modal-content">
+            <div class="certificate-border">
+                <h2>Typing Achievement</h2>
+                <hr>
+                <p>This certifies that you completed the <strong><span id="res-level"></span></strong> level with a speed of:</p>
+                <div class="cert-stats">
+                    <div><strong>WPM:</strong> <span id="res-wpm"></span></div>
+                    <div><strong>Accuracy:</strong> <span id="res-acc"></span>%</div>
+                </div>
+                <button onclick="closeModal()" class="restart-btn">Try Again</button>
+            </div>
+        </div>
     </div>
 
     <script src="quotes.js"></script>
