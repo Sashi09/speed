@@ -4,7 +4,7 @@ const timerElement = document.getElementById('timer');
 const wpmElement = document.getElementById('wpm');
 const accuracyElement = document.getElementById('accuracy');
 const progressBar = document.getElementById('progress-bar');
-const themeToggle = document.getElementById('theme-toggle');
+const themeToggle = document.getElementById('theme-toggle'); // Ensure this matches HTML id
 const highScoreElement = document.getElementById('high-score');
 const difficultySelect = document.getElementById('difficulty-select');
 
@@ -16,12 +16,14 @@ let totalChars = 0;
 // Initialize High Score from LocalStorage
 highScoreElement.innerText = localStorage.getItem('bestWPM') || 0;
 
-// Dark Mode Toggle
-themeToggle.addEventListener('click', () => document.body.classList.toggle('dark-mode'));
+// FIX: Dark Mode Toggle Logic
+if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        console.log("Theme toggled. Dark mode is now: " + document.body.classList.contains('dark-mode'));
+    });
+}
 
-/**
- * Renders a new quote with a staggered animation delay for each character.
- */
 function renderNewQuote() {
     const level = difficultySelect.value;
     const selectedQuotes = quotes[level];
@@ -42,9 +44,6 @@ function renderNewQuote() {
     quoteInputElement.value = null;
 }
 
-/**
- * Starts the countdown timer and handles live WPM/Progress Bar updates.
- */
 function startTimer() {
     timeLeft = parseInt(document.getElementById('time-limit').value);
     const totalTime = timeLeft;
@@ -68,9 +67,6 @@ function startTimer() {
     }, 1000);
 }
 
-/**
- * Handles the end of the test, displays the modal, and updates high scores.
- */
 function endTest() {
     clearInterval(timerInterval);
     quoteInputElement.disabled = true;
@@ -89,9 +85,6 @@ function endTest() {
     }
 }
 
-/**
- * Input listener for real-time character matching and accuracy tracking.
- */
 quoteInputElement.addEventListener('input', () => {
     if (!isTyping) { 
         startTimer(); 
@@ -115,26 +108,19 @@ quoteInputElement.addEventListener('input', () => {
         }
     });
 
-    // Continuous typing: Load next quote once current one is finished
     if (arrayValue.length === arrayQuote.length) {
         totalChars += arrayValue.length;
         renderNewQuote();
     }
     
-    // Live Accuracy calculation
     accuracyElement.innerText = arrayValue.length > 0 ? Math.round((correct / arrayValue.length) * 100) : 100;
 });
 
-/**
- * Closes modal and resets the game state.
- */
 function closeModal() {
     document.getElementById('result-modal').style.display = 'none';
     location.reload(); 
 }
 
-// Global Event Listeners
 document.getElementById('restart-btn').addEventListener('click', () => location.reload());
 
-// Initial call to load the first quote
 renderNewQuote();
