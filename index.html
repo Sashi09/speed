@@ -10,14 +10,14 @@
 <body>
     <div class="container">
         <h1>Speed Typing Analyzer</h1>
-        <p>Check your WPM and Accuracy in real-time</p>
+        <p>Type as many sentences as you can before time runs out!</p>
 
         <div class="settings-row">
             <div class="setting-item">
                 <label for="time-limit">Duration: </label>
                 <select id="time-limit">
                     <option value="30">30 Seconds</option>
-                    <option value="60">60 Seconds</option>
+                    <option value="60" selected>1 Minute</option>
                     <option value="120">2 Minutes</option>
                 </select>
             </div>
@@ -34,7 +34,7 @@
         <div class="stats-container">
             <div class="stat-item">
                 <p>TIME LEFT:</p>
-                <span id="timer">0s</span>
+                <span id="timer">60s</span>
             </div>
             <div class="stat-item">
                 <p>WPM:</p>
@@ -51,7 +51,7 @@
         </div>
 
         <div id="quote-display" class="quote-display"></div>
-        <textarea id="quote-input" class="quote-input" autofocus placeholder="Start typing here..."></textarea>
+        <textarea id="quote-input" class="quote-input" autofocus placeholder="Start typing..."></textarea>
         
         <button id="restart-btn" class="restart-btn">Restart Test</button>
     </div>
