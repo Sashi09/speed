@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speed Typing Analyzer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <button id="theme-toggle" class="mini-btn">Toggle Theme</button>
+        <h1>Speed Typing Analyzer</h1>
+        
+        <div class="settings-row">
+            <select id="time-limit">
+                <option value="30">30 Seconds</option>
+                <option value="60" selected>1 Minute</option>
+            </select>
+            <select id="difficulty-select">
+                <option value="easy">Easy</option>
+                <option value="medium" selected>Medium</option>
+                <option value="hard">Hard</option>
+            </select>
+        </div>
+
+        <div class="progress-bar-container">
+            <div id="progress-bar" class="progress-bar"></div>
+        </div>
+
+        <div class="stats-container">
+            <div class="stat-item"><p>TIME LEFT</p><span id="timer">60s</span></div>
+            <div class="stat-item"><p>WPM</p><span id="wpm">0</span></div>
+            <div class="stat-item"><p>ACCURACY</p><span id="accuracy">100</span>%</div>
+            <div class="stat-item"><p>BEST WPM</p><span id="high-score">0</span></div>
+        </div>
+
+        <div id="quote-display" class="quote-display"></div>
+        <textarea id="quote-input" class="quote-input" autofocus placeholder="Start typing here..."></textarea>
+        <button id="restart-btn" class="restart-btn">Restart Test</button>
+    </div>
+
+    <script src="quotes.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
