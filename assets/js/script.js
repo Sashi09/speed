@@ -12,18 +12,15 @@ let timerInterval;
 let isTyping = false;
 let timeLeft;
 let totalCharactersTyped = 0;
-let errors = 0;
 
+// Load High Score
 highScoreElement.innerText = localStorage.getItem('bestWPM') || 0;
 
-function getNextQuote() {
-    const level = difficultySelect.value;
-    const selectedQuotes = quotes[level];
-    return selectedQuotes[Math.floor(Math.random() * selectedQuotes.length)];
-}
-
 function renderNewQuote() {
-    const quote = getNextQuote();
+    const level = difficultySelect.value;
+    const selectedQuotes = quotes[level]; // Uses the 3 levels from quotes.js
+    const quote = selectedQuotes[Math.floor(Math.random() * selectedQuotes.length)];
+    
     quoteDisplayElement.innerHTML = '';
     quote.split('').forEach(character => {
         const characterSpan = document.createElement('span');
@@ -41,11 +38,12 @@ function startTimer() {
         timeLeft--;
         timerElement.innerText = timeLeft + 's';
         
-        // Live WPM calculation
+        // Calculate WPM based on total characters typed across ALL sentences
         const timeElapsed = parseInt(timeLimitSelect.value) - timeLeft;
         if (timeElapsed > 0) {
             const minutes = timeElapsed / 60;
-            wpmElement.innerText = Math.round((totalCharactersTyped / 5) / minutes);
+            const currentWPM = Math.round((totalCharactersTyped / 5) / minutes);
+            wpmElement.innerText = currentWPM;
         }
 
         if (timeLeft <= 0) endTest();
@@ -55,8 +53,15 @@ function startTimer() {
 function endTest() {
     clearInterval(timerInterval);
     quoteInputElement.disabled = true;
-    updateHighScore(parseInt(wpmElement.innerText));
-    alert(`Time's Up! Final Speed: ${wpmElement.innerText} WPM`);
+    const finalWPM = parseInt(wpmElement.innerText);
+    
+    // Update High Score if current WPM is better
+    let high = localStorage.getItem('bestWPM') || 0;
+    if (finalWPM > high) {
+        localStorage.setItem('bestWPM', finalWPM);
+        highScoreElement.innerText = finalWPM;
+    }
+    alert(`Time's up! Final Speed: ${finalWPM} WPM`);
 }
 
 quoteInputElement.addEventListener('input', () => {
@@ -67,26 +72,31 @@ quoteInputElement.addEventListener('input', () => {
 
     const arrayQuote = quoteDisplayElement.querySelectorAll('span');
     const arrayValue = quoteInputElement.value.split('');
-    
-    let correctChars = 0;
-    arrayQuote.forEach((characterSpan, index) => {
-        const character = arrayValue[index];
-        if (character == null) {
-            characterSpan.classList.remove('correct', 'incorrect');
-        } else if (character === characterSpan.innerText) {
-            characterSpan.classList.add('correct');
-            characterSpan.classList.remove('incorrect');
-            correctChars++;
+    let correctCount = 0;
+
+    arrayQuote.forEach((span, index) => {
+        const char = arrayValue[index];
+        if (char == null) {
+            span.classList.remove('correct', 'incorrect');
+        } else if (char === span.innerText) {
+            span.classList.add('correct');
+            span.classList.remove('incorrect');
+            correctCount++;
         } else {
-            characterSpan.classList.remove('correct');
-            characterSpan.classList.add('incorrect');
+            span.classList.add('incorrect');
+            span.classList.remove('correct');
         }
     });
 
-    // If current sentence is finished
+    // Check if sentence is completed to load NEXT one
     if (arrayValue.length === arrayQuote.length) {
-        totalCharactersTyped += arrayValue.length; // Add to total
-        renderNewQuote(); // Load next sentence
+        totalCharactersTyped += arrayValue.length; // Accumulate characters
+        renderNewQuote(); // Load continuous sentence
+    }
+    
+    // Live Accuracy
+    if (arrayValue.length > 0) {
+        accuracyElement.innerText = Math.round((correctCount / arrayValue.length) * 100);
     }
 });
 
@@ -95,18 +105,10 @@ function resetGame() {
     isTyping = false;
     totalCharactersTyped = 0;
     quoteInputElement.disabled = false;
-    timerElement.innerText = '0s';
+    timerElement.innerText = timeLimitSelect.value + 's';
     wpmElement.innerText = '0';
     accuracyElement.innerText = '100';
     renderNewQuote();
-}
-
-function updateHighScore(wpm) {
-    let high = localStorage.getItem('bestWPM') || 0;
-    if (wpm > high) {
-        localStorage.setItem('bestWPM', wpm);
-        highScoreElement.innerText = wpm;
-    }
 }
 
 restartBtn.addEventListener('click', resetGame);
