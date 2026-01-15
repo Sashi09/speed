@@ -3,45 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Speed Typing Test | Minor Project</title>
-    
+    <title>Speed Typing Analyzer | Minor Project</title>
     <link rel="stylesheet" href="assets/css/style.css">
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="container">
+        <h1>Speed Typing Analyzer</h1>
+        <p>Check your WPM and Accuracy in real-time</p>
 
-    <div class="main-wrapper">
-        <header>
-            <h1>Speed Typing Analyzer</h1>
-            <p>Check your WPM and Accuracy in real-time</p>
-        </header>
+        <div class="difficulty-container">
+            <label for="difficulty-select">Select Difficulty: </label>
+            <select id="difficulty-select">
+                <option value="easy">Easy (Short & Simple)</option>
+                <option value="medium" selected>Medium (Standard)</option>
+                <option value="hard">Hard (Complex & Symbols)</option>
+            </select>
+        </div>
 
-        <section class="stats-bar">
-            <div class="stat-card">
-                <span class="label">Time:</span>
-                <span id="timer" class="value">0s</span>
+        <div class="stats-container">
+            <div class="stat-item">
+                <p>TIME:</p>
+                <span id="timer">0s</span>
             </div>
-            <div class="stat-card">
-                <span class="label">WPM:</span>
-                <span id="wpm" class="value">0</span>
+            <div class="stat-item">
+                <p>WPM:</p>
+                <span id="wpm">0</span>
             </div>
-            <div class="stat-card">
-                <span class="label">Accuracy:</span>
-                <span id="accuracy" class="value">100</span>%
+            <div class="stat-item">
+                <p>ACCURACY:</p>
+                <span id="accuracy">100</span>%
             </div>
-        </section>
+            <div class="stat-item highlight">
+                <p>BEST WPM:</p>
+                <span id="high-score">0</span>
+            </div>
+        </div>
 
-        <main class="typing-area">
-            <div id="quoteDisplay" class="display-box"></div>
-            
-            <textarea id="quoteInput" class="input-field" placeholder="Start typing here..." autofocus></textarea>
-        </main>
-
-        <footer class="controls">
-            <button id="resetBtn" class="btn-primary">Restart Test</button>
-        </footer>
+        <div id="quote-display" class="quote-display"></div>
+        <textarea id="quote-input" class="quote-input" autofocus placeholder="Start typing here..."></textarea>
+        
+        <button id="restart-btn" class="restart-btn">Restart Test</button>
     </div>
 
     <script src="assets/js/quotes.js"></script>
