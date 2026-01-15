@@ -12,18 +12,28 @@
         <h1>Speed Typing Analyzer</h1>
         <p>Check your WPM and Accuracy in real-time</p>
 
-        <div class="difficulty-container">
-            <label for="difficulty-select">Select Difficulty: </label>
-            <select id="difficulty-select">
-                <option value="easy">Easy (Short & Simple)</option>
-                <option value="medium" selected>Medium (Standard)</option>
-                <option value="hard">Hard (Complex & Symbols)</option>
-            </select>
+        <div class="settings-row">
+            <div class="setting-item">
+                <label for="time-limit">Duration: </label>
+                <select id="time-limit">
+                    <option value="30">30 Seconds</option>
+                    <option value="60">60 Seconds</option>
+                    <option value="120">2 Minutes</option>
+                </select>
+            </div>
+            <div class="setting-item">
+                <label for="difficulty-select">Difficulty: </label>
+                <select id="difficulty-select">
+                    <option value="easy">Easy</option>
+                    <option value="medium" selected>Medium</option>
+                    <option value="hard">Hard</option>
+                </select>
+            </div>
         </div>
 
         <div class="stats-container">
             <div class="stat-item">
-                <p>TIME:</p>
+                <p>TIME LEFT:</p>
                 <span id="timer">0s</span>
             </div>
             <div class="stat-item">
