@@ -1,86 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Speed Typing Analyzer | Minor Project</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="assets/css/style.css">
-</head>
-<body>
-    <div class="container">
-        <div class="header-actions">
-            <button id="theme-toggle" class="mini-btn">🌓 Toggle Theme</button>
-        </div>
-        
-        <h1>Speed Typing Analyzer</h1>
-        <p>Type continuously until the timer hits zero!</p>
-
-        <div class="settings-row">
-            <div class="setting-item">
-                <label for="time-limit">Duration: </label>
-                <select id="time-limit">
-                    <option value="30">30 Seconds</option>
-                    <option value="60" selected>1 Minute</option>
-                    <option value="120">2 Minutes</option>
-                </select>
-            </div>
-            <div class="setting-item">
-                <label for="difficulty-select">Difficulty: </label>
-                <select id="difficulty-select">
-                    <option value="easy">Easy</option>
-                    <option value="medium" selected>Medium</option>
-                    <option value="hard">Hard</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="progress-bar-container">
-            <div id="progress-bar" class="progress-bar"></div>
-        </div>
-
-        <div class="stats-container">
-            <div class="stat-item">
-                <p>TIME LEFT:</p>
-                <span id="timer">60s</span>
-            </div>
-            <div class="stat-item">
-                <p>WPM:</p>
-                <span id="wpm">0</span>
-            </div>
-            <div class="stat-item">
-                <p>ACCURACY:</p>
-                <span id="accuracy">100</span>%
-            </div>
-            <div class="stat-item highlight">
-                <p>BEST WPM:</p>
-                <span id="high-score">0</span>
-            </div>
-        </div>
-
-        <div id="quote-display" class="quote-display"></div>
-        <textarea id="quote-input" class="quote-input" autofocus placeholder="Start typing..."></textarea>
-        <button id="restart-btn" class="restart-btn">Restart Test</button>
+<div class="container">
+    <div class="header-actions">
+        <button id="theme-toggle" class="mini-btn">Toggle Dark Mode</button>
     </div>
+    
+    <h1>Speed Typing Analyzer</h1>
+    <p>Type continuously until the timer hits zero!</p>
 
-    <div id="result-modal" class="modal">
-        <div class="modal-content">
-            <div class="certificate-border">
-                <h2>Typing Achievement</h2>
-                <hr>
-                <p>This certifies that you completed the <strong><span id="res-level"></span></strong> level with a speed of:</p>
-                <div class="cert-stats">
-                    <div><strong>WPM:</strong> <span id="res-wpm"></span></div>
-                    <div><strong>Accuracy:</strong> <span id="res-acc"></span>%</div>
-                </div>
-                <button onclick="closeModal()" class="restart-btn">Try Again</button>
-            </div>
+    <div class="settings-row">
+        <div class="setting-item">
+            <label>Duration:</label>
+            <select id="time-limit">
+                <option value="30">30 Seconds</option>
+                <option value="60">1 Minute</option>
+            </select>
+        </div>
+        <div class="setting-item">
+            <label>Difficulty:</label>
+            <select id="difficulty-select">
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+            </select>
         </div>
     </div>
 
-    <script src="quotes.js"></script>
-    <script src="assets/js/quotes.js"></script>
-    <script src="script.js"></script>
-    <script src="assets/js/script.js"></script>
-</body>
-</html>
+    <div class="progress-bar-container">
+        <div id="progress-bar" class="progress-bar"></div>
+    </div>
+
+    <div class="stats-container">
+        <div class="stat-item"><p>TIME LEFT:</p><span id="timer">60s</span></div>
+        <div class="stat-item"><p>WPM:</p><span id="wpm">0</span></div>
+        <div class="stat-item"><p>ACCURACY:</p><span id="accuracy">100</span>%</div>
+        <div class="stat-item highlight"><p>BEST WPM:</p><span id="high-score">0</span></div>
+    </div>
+
+    <div id="quote-display" class="quote-display"></div>
+    <textarea id="quote-input" class="quote-input" placeholder="Start typing..."></textarea>
+    <button id="restart-btn" class="restart-btn">Restart Test</button>
+</div>
